@@ -131,4 +131,8 @@ $(document).ready(function() {
     $("#SemWeb").on("click", function() {
         drawGraph('SemanticWeb');
     });
+
+    $("#SemWebTop").on("click", function() {
+        drawGraph('SemanticWebTop');
+    });
 });
