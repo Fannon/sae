@@ -1,0 +1,14 @@
+{
+  "devDependencies": {
+    "cli": "^0.6.2",
+    "grunt": "*",
+    "grunt-contrib-connect": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-shell": "^0.7.0",
+    "load-grunt-tasks": "*"
+  },
+  "dependencies": {
+    "fs-extra": "^0.9.1"
+  }
+}
