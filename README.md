@@ -1,8 +1,8 @@
-Semantic Web > scientific authors explorer
+Scientific Authors Explorer (SAE)
 =============================
 
-Interactive graph visualisations of Semantic Web scientific authors
+This is a collection of interactive graph visualisations of Scientific Authors
 
-**Online at:** [www.fannon.de/p/semwebexp/](http://www.fannon.de/p/semwebexp/)
+**Online at:** [www.fannon.de/p/sae/](http://www.fannon.de/p/sae/)
 
-![Image](http://fannon.de/p/semwebexp/img/example2.png?raw=true)
+![Image](http://fannon.de/p/sae/img/example3.png?raw=true)
