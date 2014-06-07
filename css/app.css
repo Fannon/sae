@@ -15,8 +15,8 @@ a:hover {
 }
 
 .container {
-    margin-top: 30px;
-    width: 640px;
+    margin-top: 80px;
+    max-width: 640px;
 }
 
 h2 {
@@ -44,7 +44,8 @@ h3 {
   background: #111;
 }
 
-#overlay {
+#overlay, #overlay-index {
+    text-align: center;
     padding: 4px 8px;
     background: rgba(0, 0, 0, 0.75);
     color: #FFF;
@@ -54,18 +55,24 @@ h3 {
     z-index: 10;
 }
 
-#overlay h2 {
+#overlay h2, #overlay-index h2 {
     font-size: 1.6em;
     margin: 4px 0;
 }
 
-#overlay #impressum {
+#overlay #impressum, #overlay-index #impressum {
     font-size: 0.8em;
     color: #AAA;
     margin-top: 2px;
     padding-top: 2px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
+
+#overlay-index {
+    width: 100%;
+    font-size: 1.2em;
+}
+
 
 #details {
     padding: 4px 8px;
@@ -76,8 +83,9 @@ h3 {
     top: 0;
     right: 0;
     z-index: 10;
-    width: 420px;
     max-height: 100%;
+
+    width: 420px;
 
     overflow-y: auto;
     overflow-x: hidden;
