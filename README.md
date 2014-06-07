@@ -1,4 +1,4 @@
-Semantic Web Authors Explorer
+Semantic Web > scientific authors explorer
 =============================
 
 Interactive graph visualisations of Semantic Web scientific authors
