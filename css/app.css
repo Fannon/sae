@@ -29,6 +29,61 @@ body, html {
     z-index: 10;
 }
 
+#details {
+    padding: 4px 8px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #AAA;
+    font-size: 0.85em;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    width: 420px;
+}
+
+#details h5 {
+    font-weight: bold;
+    padding-bottom: 2px;
+    margin: 3px 0;
+    border-bottom: 1px dotted rgba(255, 255, 255, 0.2);
+}
+
+#node-details ol {
+    padding-left: 20px;
+}
+
+#node-details li {
+    font-size: 0.8em;
+}
+
+.publications-title {
+    margin-top: 8px;
+    padding-bottom: 2px;
+    margin-bottom: 4px;
+    border-bottom: 1px dotted rgba(255, 255, 255, 0.3);
+}
+
+.node-title {
+    color: #EEE;
+    font-size: 1.6em;
+    font-weight: bold;
+    padding-bottom: 2px;
+    margin-bottom: 2px;
+    border-bottom: 3px solid #CCC;
+}
+
+#footer {
+    padding: 4px 8px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #777;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    font-size: 0.85em;
+}
+
+
 h1 {
     text-align: center;
     color: #777;

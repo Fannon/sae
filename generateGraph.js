@@ -10,20 +10,19 @@ var util = require('util');
 //////////////////////////////////////////
 
 var fileNames = [
-    'SemanticWeb',
     'SemanticWebComplete',
     'ESWC',
     'ISWC'
 ];
-var minSize = 1;
-var maxSize = 20;
 
+// 70% of the score is inherited by the next author
+var scoreRemainder = 0.7;
+var citaviJunk = 'Titel anhand dieser DOI in Citavi-Projekt übernehmen  ';
 
 //////////////////////////////////////////
 // Variables                            //
 //////////////////////////////////////////
 
-var currentMaxScore = 0;
 var processFile;
 
 
@@ -48,6 +47,11 @@ processFile = function(fileName) {
 
         util.print('Processing ' + fileName);
 
+
+        //////////////////////////////////////////
+        // Calculations                         //
+        //////////////////////////////////////////
+
         var data = JSON.parse(data);
 
         var dataItems = data.result.hits.hit;
@@ -66,6 +70,8 @@ processFile = function(fileName) {
             var item = dataItems[i];
             var itemId = item['@id'];
 
+            var score = 16;
+
             if (!contributionIds[itemId] && item.info && item.info.authors && item.info.authors.author) {
 
                 contributionIds[itemId] = true;
@@ -77,22 +83,34 @@ processFile = function(fileName) {
 
                     author = authors[j];
 
+                    if (j === authors.length -1) {
+                        score = 8; // Last mentioned Author gets fixed Score of 8
+                    }
+
+                    if (authors.length === 2) {
+                        score = 12;
+                    }
+
                     if (!nodes[author]) {
                         nodes[author] = {
                             id: 'n' + id,
                             label: author,
-                            score: parseInt(item['@score'], 10),
-                            contributions: 1
+                            dblpScore: parseInt(item['@score'], 10),
+                            score: score,
+                            contributions: 1,
+                            publications: item.info.title.text.replace(citaviJunk, '').trim()
                         };
 
                         id += 1;
 
                     } else {
-                        nodes[author].score += parseInt(item['@score'], 10);
+                        nodes[author].dblpScore += parseInt(item['@score'], 10);
+                        nodes[author].score += score;
                         nodes[author].contributions += 1;
+                        nodes[author].publications += ';' + item.info.title.text.replace(citaviJunk, '').trim();
                     }
 
-                    currentMaxScore = Math.max(currentMaxScore,  nodes[author].score);
+                    score = score * scoreRemainder;
 
                 }
 
@@ -101,7 +119,7 @@ processFile = function(fileName) {
 
                     author = authors[k];
 
-                    for (var l = 0; l < authors.length; l++) {
+                    for (var l = 1; l < authors.length; l++) {
 
                         var secondAuthor = authors[l];
 
@@ -110,7 +128,6 @@ processFile = function(fileName) {
 
                         var edgeId = authorId + '-' + secondAuthorId;
                         var edgeIdAlt = secondAuthorId + '-' + authorId;
-
 
                         if ((authorId !== secondAuthorId) && !edges[edgeId] && !edges[edgeIdAlt]) {
                             edges[edgeId] = {
@@ -122,21 +139,6 @@ processFile = function(fileName) {
 
                     }
 
-                    if (!nodes[author]) {
-                        nodes[author] = {
-                            id: id,
-                            label: author,
-                            score: parseInt(item['@score'], 10),
-                            contributions: 1
-                        };
-
-                        id += 1;
-
-                    } else {
-                        nodes[author].score += parseInt(item['@score'], 10);
-                        nodes[author].contributions += 1;
-                    }
-
                 }
 
                 util.print('.');
@@ -145,8 +147,11 @@ processFile = function(fileName) {
         }
         util.print('\n\n');
 
+        //////////////////////////////////////////
+        // Export: Header                       //
+        //////////////////////////////////////////
 
-        var gefxExport = '<?xml version="1.0" encoding="UTF-8"?>\n';
+        var gefxExport = '\ufeff<?xml version="1.0" encoding="UTF-8"?>\n';
         gefxExport    += '<gexf xmlns="http://www.gexf.net/1.2draft" version="1.2">\n';
         gefxExport    += '  <meta lastmodifieddate="2014-06-04">\n';
         gefxExport    += '      <creator>Simon Heimler</creator>\n';
@@ -154,27 +159,36 @@ processFile = function(fileName) {
         gefxExport    += '  </meta>\n';
         gefxExport    += '  <graph mode="static" defaultedgetype="directed">\n';
         gefxExport    += '      <attributes class="node">\n';
-        gefxExport    += '          <attribute id="0" title="score" type="float"/>\n';
+        gefxExport    += '          <attribute id="0" title="Score" type="integer"/>\n';
+        gefxExport    += '          <attribute id="1" title="dblpScore" type="integer"/>\n';
+        gefxExport    += '          <attribute id="2" title="Contributions" type="integer"/>\n';
+        gefxExport    += '          <attribute id="3" title="Publications" type="string"/>\n';
         gefxExport    += '      </attributes>\n';
 
+        //////////////////////////////////////////
+        // Export: Nodes                        //
+        //////////////////////////////////////////
 
         gefxExport    += '      <nodes>\n';
-        maxSize = maxSize - minSize;
+
         for (var nodeId in nodes) {
+
             var node = nodes[nodeId];
-
-            var score = node.score * (maxSize / currentMaxScore) + minSize;
-
-            node.size = Math.round(score * 10) / 10;
 
             gefxExport    += '          <node id="' + node.id + '" label="' + node.label + '">\n';
             gefxExport    += '              <attvalues>\n';
-            gefxExport    += '                  <attvalue for="0" value="' + node.score + '"/>\n';
+            gefxExport    += '                  <attvalue for="0" value="' + Math.round(node.score) + '"/>\n';
+            gefxExport    += '                  <attvalue for="1" value="' + Math.round(node.dblpScore) + '"/>\n';
+            gefxExport    += '                  <attvalue for="2" value="' + node.contributions + '"/>\n';
+            gefxExport    += '                  <attvalue for="3" value="' + node.publications + '"/>\n';
             gefxExport    += '              </attvalues>\n';
             gefxExport    += '          </node>\n';
         }
         gefxExport    += '      </nodes>\n';
 
+        //////////////////////////////////////////
+        // Export: Edges                        //
+        //////////////////////////////////////////
 
         gefxExport    += '      <edges>\n';
         for (var edgeId in edges) {
@@ -183,6 +197,10 @@ processFile = function(fileName) {
         }
         gefxExport    += '      </edges>\n';
 
+
+        //////////////////////////////////////////
+        // Export: Footer                       //
+        //////////////////////////////////////////
 
         gefxExport    += '  </graph>\n';
         gefxExport    += '</gexf>\n';

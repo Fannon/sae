@@ -42,8 +42,8 @@ var drawGraph = function(name) {
 
                 borderSize: 2,
                 defaultNodeBorderColor: '#FFF',
-
-                zoomMax: 16
+                zoomMin: 0.0625,
+                zoomMax: 32
 
             }
         },
@@ -67,6 +67,26 @@ var drawGraph = function(name) {
                 var nodeId = e.data.node.id,
                     toKeep = s.graph.neighbors(nodeId);
                 toKeep[nodeId] = e.data.node;
+
+                console.dir(e.data.node);
+                var html = '';
+
+                html += '<div class="node-title" style="border-color: ' + e.data.node.viz.color + '">' + e.data.node.label + '</div>';
+                html += '<strong>Naive Score</strong>: ' + e.data.node.attributes.score + '<br>';
+                html += '<strong>DBLP Score</strong>: ' + e.data.node.attributes.dblpscore + '<br>';
+
+                html += '<div class="publications-title"><strong>Publications</strong>:</div><ol class="publications">';
+                var pubArray = e.data.node.attributes.publications.split(';');
+
+
+                for (var i = 0; i < pubArray.length; i++) {
+                    var pub = pubArray[i];
+                    html += '<li>' + pub + '</li>';
+                }
+
+                html += '</ol>';
+
+                $('#node-details').html(html);
 
                 s.graph.nodes().forEach(function(n) {
                     if (toKeep[n.id])
@@ -99,6 +119,8 @@ var drawGraph = function(name) {
                     e.color = e.originalColor;
                 });
 
+                $('#node-details').html('');
+
                 // Same as in the previous event:
                 s.refresh();
             });
@@ -108,13 +130,11 @@ var drawGraph = function(name) {
 
 $(document).ready(function() {
 
-    console.log(window.location.hash);
-
     var hash = window.location.hash;
     var graphName = hash.replace('#', '');
 
     if (!graphName) {
-        graphName = 'SemanticWeb';
+        graphName = 'SemanticWebTop';
     }
 
     prepareGraph();
@@ -126,10 +146,6 @@ $(document).ready(function() {
 
     $("#ESWC").on("click", function() {
         drawGraph('ESWC');
-    });
-
-    $("#SemWeb").on("click", function() {
-        drawGraph('SemanticWeb');
     });
 
     $("#SemWebTop").on("click", function() {
