@@ -17,9 +17,6 @@ var prepareGraph = function() {
 
 var drawGraph = function(name) {
 
-
-    console.log('Drawing Graph: ' + name);
-
     $('#graph').html('');
 
     sigma.parsers.gexf('data/layouted/' + name + '.gexf', {
@@ -42,12 +39,16 @@ var drawGraph = function(name) {
 
                 borderSize: 2,
                 defaultNodeBorderColor: '#FFF',
-                zoomMin: 0.0625,
-                zoomMax: 32
+                doubleClickZoomingRatio: 4,
+                zoomMin: 0.02,
+                zoomMax: 2
 
             }
         },
         function(s) {
+
+            window.graph = s;
+
             // We first need to save the original colors of our
             // nodes and edges, like this:
             s.graph.nodes().forEach(function(n) {
@@ -68,17 +69,15 @@ var drawGraph = function(name) {
                     toKeep = s.graph.neighbors(nodeId);
                 toKeep[nodeId] = e.data.node;
 
-                console.dir(e.data.node);
+                // Print Node Infos to Detail Div
                 var html = '';
-
                 html += '<div class="node-title" style="border-color: ' + e.data.node.viz.color + '">' + e.data.node.label + '</div>';
                 html += '<strong>Naive Score</strong>: ' + e.data.node.attributes.score + '<br>';
                 html += '<strong>DBLP Score</strong>: ' + e.data.node.attributes.dblpscore + '<br>';
+                html += '<div class="publications-title"><strong>Publications</strong>:</div>';
 
-                html += '<div class="publications-title"><strong>Publications</strong>:</div><ol class="publications">';
+                html += '<ol class="publications">';
                 var pubArray = e.data.node.attributes.publications.split(';');
-
-
                 for (var i = 0; i < pubArray.length; i++) {
                     var pub = pubArray[i];
                     html += '<li>' + pub + '</li>';
@@ -127,28 +126,3 @@ var drawGraph = function(name) {
         }
     );
 };
-
-$(document).ready(function() {
-
-    var hash = window.location.hash;
-    var graphName = hash.replace('#', '');
-
-    if (!graphName) {
-        graphName = 'SemanticWebTop';
-    }
-
-    prepareGraph();
-    drawGraph(graphName);
-
-    $("#ISWC").on("click", function() {
-        drawGraph('ISWC');
-    });
-
-    $("#ESWC").on("click", function() {
-        drawGraph('ESWC');
-    });
-
-    $("#SemWebTop").on("click", function() {
-        drawGraph('SemanticWebTop');
-    });
-});

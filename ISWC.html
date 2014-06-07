@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Semantic Web Authors Explorer</title>
+    <link href="lib/bootstrap.min.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+</head>
+<body>
+<div id="graph"></div>
+
+<div id="overlay">Semantic Web Authors Explorer:
+    <a id="SemWebTop" href="SemWebTop.html">SemWeb</a>,
+    <a id="ISWC" href="ISWC.html">ISWC</a>,
+    <a id="ESWC" href="ESWC.html">ESWC</a>
+</div>
+
+<div id="details">
+    <!--<h5>Node Details <small>(select node)</small></h5>-->
+    <div id="node-details"></div>
+</div>
+
+<div id="footer">
+    Data from <a href="http://www.informatik.uni-trier.de/~Ley/db/">dblp</a> | Last Update: 06/2014 | Simon Heimler
+</div>
+
+
+<script src="lib/jquery.min.js"></script>
+<script src="lib/bootstrap.min.js"></script>
+
+<script src="lib/sigma.min.js"></script>
+<script src="lib/sigma.parsers.gexf.min.js"></script>
+
+<script src="js/app.js"></script>
+
+<script>
+    $(document).ready(function() {
+        prepareGraph();
+        drawGraph('ISWC');
+    });
+</script>
+
+</body>
+</html>
+
+

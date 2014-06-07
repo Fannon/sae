@@ -12,23 +12,36 @@
 
 </head>
 <body>
-<div id="graph"></div>
+<div class="container">
 
-<div id="overlay">Semantic Web Authors Explorer:
-    <a id="SemWebTop" href="http://fannon.de/p/semwebexp/#SemanticWebTop" target="_blank">SemWeb</a>,
-    <a id="ISWC" href="http://fannon.de/p/semwebexp/#ISWC" target="_blank">ISWC</a>,
-    <a id="ESWC" href="http://fannon.de/p/semwebexp/#ESWC" target="_blank">ESWC</a>
+    <h2>Semantic Web Authors Explorer</h2>
+    <div class="group">
+        <h3 id="SemWebTop"><a href="SemWebTop.html">Semantic Web Top Authors</a></h3>
+        <p>
+            The top authors (highly reduced) from the search query "Semantic Web"<br>
+            <em><small>Datasource: <a href="http://www.dblp.org/search/index.php#query=Semantic Web" target="_blank">http://www.dblp.org/search/index.php#query=Semantic Web</a></small></em>
+        </p>
+    </div>
+
+    <div class="group">
+        <h3 id="ISWC"><a href="SemWebTop.html">ISWC Authors</a></h3>
+        <p>
+            All Authors from the ISWC Conference<br>
+            <em><small>Datasource: <a href="http://www.dblp.org/search/index.php#query=venue:iswc" target="_blank">http://www.dblp.org/search/index.php#query=venue:iswc</a></p></small></em>
+    </div>
+
+    <div class="group">
+        <h3 id="ESWC"><a href="SemWebTop.html">Semantic Web Top Authors</a></h3>
+        <p>
+            All Authors from the ESWC Conference<br>
+            <em><small>Datasource: <a href="http://www.dblp.org/search/index.php#query=venue:eswc" target="_blank">http://www.dblp.org/search/index.php#query=venue:eswc</a></small></em>
+        </p>
+    </div>
+
+    <p align="center">
+        <small>Data from <a href="http://www.informatik.uni-trier.de/~Ley/db/" target="_blank">dblp</a> | Last Update: 06/2014 | Simon Heimler</small>
+    </p>
 </div>
-
-<div id="details">
-    <!--<h5>Node Details <small>(select node)</small></h5>-->
-    <div id="node-details"></div>
-</div>
-
-<div id="footer">
-    Data from <a href="http://www.dblp.org/search/index.php">dblp.org</a> | Last Update: 06/2014 | Simon Heimler
-</div>
-
 
 <script src="lib/jquery.min.js"></script>
 <script src="lib/bootstrap.min.js"></script>
