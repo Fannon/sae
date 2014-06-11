@@ -9,6 +9,12 @@ var util = require('util');
 // Config                               //
 //////////////////////////////////////////
 
+/**
+ * Files to import
+ * Will read json files coming from dblp stored the folder /data/import
+ * Will export to /data/export in gexf format (http://gexf.net/format/) for use with Gephi
+ * @type {Array}
+ */
 var fileNames = [
     'SemanticWebComplete',
     'ESWC',
@@ -33,9 +39,7 @@ var processFile;
 
 processFile = function(fileName) {
 
-
-
-    var file = __dirname + '/data/' + fileName + '.json';
+    var file = __dirname + '/data/import/' + fileName + '.json';
 
     fs.readFile(file, 'utf8', function(err, data) {
         "use strict";
@@ -205,7 +209,7 @@ processFile = function(fileName) {
         gefxExport    += '  </graph>\n';
         gefxExport    += '</gexf>\n';
 
-        fs.outputFileSync(__dirname + '/export/' + fileName + '.gexf', gefxExport);
+        fs.outputFileSync(__dirname + '/data/export/' + fileName + '.gexf', gefxExport);
     });
 };
 
