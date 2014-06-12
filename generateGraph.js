@@ -87,12 +87,19 @@ processFile = function(fileName) {
 
                     author = authors[j];
 
-                    if (j === authors.length -1) {
-                        score = 8; // Last mentioned Author gets fixed Score of 8
+                    // Last mentioned Author gets fixed Score of at least 8
+                    if (j === authors.length -1 && score < 8) {
+                        score = 8;
                     }
 
+                    // If article was written by exactly 2 authors, both get score of 12
                     if (authors.length === 2) {
                         score = 12;
+                    }
+
+                    // Minimum Score is 1
+                    if (score < 1) {
+                        score = 1;
                     }
 
                     if (!nodes[author]) {
@@ -133,12 +140,23 @@ processFile = function(fileName) {
                         var edgeId = authorId + '-' + secondAuthorId;
                         var edgeIdAlt = secondAuthorId + '-' + authorId;
 
-                        if ((authorId !== secondAuthorId) && !edges[edgeId] && !edges[edgeIdAlt]) {
-                            edges[edgeId] = {
-                                id: edgeId,
-                                source: authorId,
-                                target: secondAuthorId
-                            };
+                        if (authorId !== secondAuthorId) {
+
+                            if (!edges[edgeId] && !edges[edgeIdAlt]) {
+                                edges[edgeId] = {
+                                    id: edgeId,
+                                    source: authorId,
+                                    target: secondAuthorId,
+                                    weight: 1
+                                };
+                            } else {
+                                if (edges[edgeId]) {
+                                    edges[edgeId].weight += 1
+                                } else if (edges[edgeIdAlt]) {
+                                    edges[edgeIdAlt].weight += 1
+                                }
+                            }
+
                         }
 
                     }
@@ -161,12 +179,13 @@ processFile = function(fileName) {
         gefxExport    += '      <creator>Simon Heimler</creator>\n';
         gefxExport    += '      <description>Semantic Web Author Graph</description>\n';
         gefxExport    += '  </meta>\n';
-        gefxExport    += '  <graph mode="static" defaultedgetype="directed">\n';
+        gefxExport    += '  <graph mode="static" defaultedgetype="undirected">\n';
         gefxExport    += '      <attributes class="node">\n';
         gefxExport    += '          <attribute id="0" title="Score" type="integer"/>\n';
         gefxExport    += '          <attribute id="1" title="dblpScore" type="integer"/>\n';
         gefxExport    += '          <attribute id="2" title="Contributions" type="integer"/>\n';
         gefxExport    += '          <attribute id="3" title="Publications" type="string"/>\n';
+        gefxExport    += '          <attribute id="4" title="size" type="integer"/>\n';
         gefxExport    += '      </attributes>\n';
 
         //////////////////////////////////////////
@@ -197,7 +216,11 @@ processFile = function(fileName) {
         gefxExport    += '      <edges>\n';
         for (var edgeId in edges) {
             var edge = edges[edgeId];
-            gefxExport    += '          <edge id="' + edge.id + '" source="' + edge.source + '" target="' + edge.target + '" />\n';
+            gefxExport    += '          <edge id="' + edge.id + '" source="' + edge.source + '" target="' + edge.target + '" weight="' + edge.weight + '" label="co-author" >\n';
+            gefxExport    += '              <attvalues>\n';
+            gefxExport    += '                  <attvalue for="4" value="' + edge.weight + '"/>\n';
+            gefxExport    += '              </attvalues>\n';
+            gefxExport    += '          </edge>\n';
         }
         gefxExport    += '      </edges>\n';
 

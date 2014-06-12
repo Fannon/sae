@@ -20,30 +20,42 @@ var drawGraph = function(name) {
     $('#graph').html('');
 
     sigma.parsers.gexf('data/layouted/' + name + '.gexf', {
+
             container: 'graph',
+
             settings: {
+
                 defaultNodeColor: '#ec5148',
-                minEdgeSize: 0.3,
-                maxEdgeSize: 0.3,
+                defaultNodeBorderColor: '#FFF',
 
                 defaultLabelColor: '#fff',
-
-                defaultLabelSize: 11,
-
                 defaultLabelBGColor: '#fff',
                 defaultLabelHoverColor: '#000',
-                labelThreshold: 7,
-
-                defaultEdgeType: 'curve',
-                enableHovering: true,
 
                 borderSize: 2,
-                defaultNodeBorderColor: '#FFF',
+                defaultLabelSize: 11,
+
+                minEdgeSize: 0.2,
+                maxEdgeSize: 2.4,
+                edgeColor: "default",
+
+                minNodeSize: 0.4,
+                maxNodeSize: 8,
+
+                enableHovering: true,
+
+                labelThreshold: 10,
+
                 doubleClickZoomingRatio: 4,
                 zoomMin: 0.02,
                 zoomMax: 2
 
             }
+            // ,
+            // renderer: {
+            //     container: document.getElementById('graph'),
+            //     type: 'canvas'
+            // }
         },
         function(s) {
 
@@ -55,8 +67,11 @@ var drawGraph = function(name) {
                 n.originalColor = n.color;
             });
             s.graph.edges().forEach(function(e) {
+                e.color = '#555';
                 e.originalColor = e.color;
+
             });
+            s.refresh();
 
             // When a node is clicked, we check for each node
             // if it is a neighbor of the clicked one. If not,
@@ -88,17 +103,21 @@ var drawGraph = function(name) {
                 $('#node-details').html(html);
 
                 s.graph.nodes().forEach(function(n) {
-                    if (toKeep[n.id])
+                    if (toKeep[n.id]) {
                         n.color = n.originalColor;
-                    else
+                    } else {
                         n.color = '#333';
+                    }
                 });
 
                 s.graph.edges().forEach(function(e) {
-                    if (toKeep[e.source] && toKeep[e.target])
-                        e.color = e.originalColor;
-                    else
+                    if (toKeep[e.source] && toKeep[e.target]) {
+                        e.color = e.nodeColor;
+                        e.color = '#777';
+                    } else {
                         e.color = '#333';
+                    }
+
                 });
 
                 // Since the data has been modified, we need to
