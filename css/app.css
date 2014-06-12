@@ -24,12 +24,14 @@ a:hover {
     max-width: 640px;
 }
 
-h2 {
+h2{
     text-align: center;
 }
 
-h3 {
-    margin: 8px 0;
+h3, h4  {
+    margin: 2px 0 8px 0;
+    padding-bottom: 2px;
+    border-bottom: 1px dotted #333;
 }
 
 .group {
@@ -74,7 +76,7 @@ h3 {
 
 #overlay #impressum, #overlay-index #impressum {
     font-size: 0.8em;
-    color: #AAA;
+    color: #CCC;
     margin-top: 2px;
     padding-top: 2px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -89,7 +91,7 @@ h3 {
 #details {
     padding: 4px 8px;
     background: rgba(0, 0, 0, 0.8);
-    color: #AAA;
+    color: #CCC;
     font-size: 0.85em;
     position: absolute;
     top: 0;
@@ -110,15 +112,19 @@ h3 {
     border-bottom: 1px dotted rgba(255, 255, 255, 0.2);
 }
 
-#node-details ol {
+ol, ul {
     padding-left: 20px;
+}
+
+ul {
+    list-style: square;
 }
 
 #node-details li {
     font-size: 0.8em;
 }
 
-.publications-title {
+.publications-title, .connections-title {
     margin-top: 8px;
     padding-bottom: 2px;
     margin-bottom: 4px;

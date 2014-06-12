@@ -17,6 +17,10 @@ var prepareGraph = function() {
 
 var drawGraph = function(name) {
 
+    var edgeColor = '#777';
+    var edgeMutedColor = '#222';
+    var edgeActiveColor = '#AAA';
+
     $('#graph').html('');
 
     sigma.parsers.gexf('data/layouted/' + name + '.gexf', {
@@ -87,9 +91,9 @@ var drawGraph = function(name) {
                 // Print Node Infos to Detail Div
                 var html = '';
                 html += '<div class="node-title" style="border-color: ' + e.data.node.viz.color + '">' + e.data.node.label + '</div>';
-                html += '<strong>Naive Score</strong>: ' + e.data.node.attributes.score + '<br>';
-                html += '<strong>DBLP Score</strong>: ' + e.data.node.attributes.dblpscore + '<br>';
-                html += '<div class="publications-title"><strong>Publications</strong>:</div>';
+                // html += '<strong>Naive Score</strong>: ' + e.data.node.attributes.score + '<br>';
+                // html += '<strong>DBLP Score</strong>: ' + e.data.node.attributes.dblpscore + '<br>';
+                html += '<div class="publications-title"><strong>Publications</strong>: (' + e.data.node.attributes.contributions + ' total)</div>';
 
                 html += '<ol class="publications">';
                 var pubArray = e.data.node.attributes.publications.split(';');
@@ -100,25 +104,33 @@ var drawGraph = function(name) {
 
                 html += '</ol>';
 
-                $('#node-details').html(html);
+                html += '<div class="connections-title"><strong>Connections</strong>:</div>';
+                html += '<ul class="connections">';
 
                 s.graph.nodes().forEach(function(n) {
                     if (toKeep[n.id]) {
                         n.color = n.originalColor;
+                        html += '<li style="color:' + n.color + ';"><div style="color: #CCC">' + n.label + '</div></li>';
                     } else {
-                        n.color = '#333';
+                        n.color = edgeMutedColor;
                     }
                 });
+
+                html += '</ul>';
+
+                var nodes = s.graph.read('').nodesIndex;
 
                 s.graph.edges().forEach(function(e) {
                     if (toKeep[e.source] && toKeep[e.target]) {
                         e.color = e.nodeColor;
-                        e.color = '#777';
+                        e.color = nodes[e.source].color;
                     } else {
-                        e.color = '#333';
+                        e.color = edgeMutedColor;
                     }
 
                 });
+
+                $('#node-details').html(html);
 
                 // Since the data has been modified, we need to
                 // call the refresh method to make the colors
