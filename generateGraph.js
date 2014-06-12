@@ -181,11 +181,11 @@ processFile = function(fileName) {
         gefxExport    += '  </meta>\n';
         gefxExport    += '  <graph mode="static" defaultedgetype="undirected">\n';
         gefxExport    += '      <attributes class="node">\n';
-        gefxExport    += '          <attribute id="0" title="Score" type="integer"/>\n';
-        gefxExport    += '          <attribute id="1" title="dblpScore" type="integer"/>\n';
-        gefxExport    += '          <attribute id="2" title="Contributions" type="integer"/>\n';
-        gefxExport    += '          <attribute id="3" title="Publications" type="string"/>\n';
-        gefxExport    += '          <attribute id="4" title="size" type="integer"/>\n';
+        gefxExport    += '          <attribute id="naive_score" title="Score" type="integer"/>\n';
+        gefxExport    += '          <attribute id="dblp_score" title="dblp Score" type="integer"/>\n';
+        gefxExport    += '          <attribute id="contributions" title="Contributions" type="integer"/>\n';
+        gefxExport    += '          <attribute id="publications" title="Publications" type="string"/>\n';
+        gefxExport    += '          <attribute id="size" title="size" type="integer"/>\n';
         gefxExport    += '      </attributes>\n';
 
         //////////////////////////////////////////
@@ -200,10 +200,10 @@ processFile = function(fileName) {
 
             gefxExport    += '          <node id="' + node.id + '" label="' + node.label + '">\n';
             gefxExport    += '              <attvalues>\n';
-            gefxExport    += '                  <attvalue for="0" value="' + Math.round(node.score) + '"/>\n';
-            gefxExport    += '                  <attvalue for="1" value="' + Math.round(node.dblpScore) + '"/>\n';
-            gefxExport    += '                  <attvalue for="2" value="' + node.contributions + '"/>\n';
-            gefxExport    += '                  <attvalue for="3" value="' + node.publications + '"/>\n';
+            gefxExport    += '                  <attvalue for="naive_score" value="' + Math.round(node.score) + '"/>\n';
+            gefxExport    += '                  <attvalue for="dblp_score" value="' + Math.round(node.dblpScore) + '"/>\n';
+            gefxExport    += '                  <attvalue for="contributions" value="' + node.contributions + '"/>\n';
+            gefxExport    += '                  <attvalue for="publications" value="' + node.publications + '"/>\n';
             gefxExport    += '              </attvalues>\n';
             gefxExport    += '          </node>\n';
         }

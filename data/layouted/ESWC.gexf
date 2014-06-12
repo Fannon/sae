@@ -7,7 +7,7 @@
   <graph defaultedgetype="undirected" mode="static">
     <attributes class="node" mode="static">
       <attribute id="0" title="Score" type="integer"></attribute>
-      <attribute id="1" title="dblpScore" type="integer"></attribute>
+      <attribute id="1" title="dblp Score" type="integer"></attribute>
       <attribute id="2" title="Contributions" type="integer"></attribute>
       <attribute id="3" title="Publications" type="string"></attribute>
       <attribute id="4" title="size" type="integer"></attribute>
