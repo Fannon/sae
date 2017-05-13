@@ -3,6 +3,6 @@ Scientific Authors Explorer (SAE)
 
 This is a collection of interactive graph visualisations of Scientific Authors
 
-**Online at:** [www.fannon.de/p/sae/](http://www.fannon.de/p/sae/)
+**Online at:** [fannon.github.io/sae/](http://fannon.github.io/sae/)
 
-![Image](http://fannon.de/p/sae/img/example3.png?raw=true)
+![Image](http://fannon.github.io/sae/img/example3.png?raw=true)
